@@ -3,6 +3,8 @@ Imitate the parser representation.
 """
 import re
 from functools import partial
+from inspect import Parameter
+from pathlib import Path
 
 from jedi import debug
 from jedi.inference.utils import to_list
@@ -315,7 +317,10 @@ class CompiledModule(CompiledValue):
         return tuple(name.split('.'))
 
     def py__file__(self):
-        return cast_path(self.access_handle.py__file__())
+        path = cast_path(self.access_handle.py__file__())
+        if path is None:
+            return None
+        return Path(path)
 
 
 class CompiledName(AbstractNameDefinition):

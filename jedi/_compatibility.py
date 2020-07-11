@@ -286,7 +286,7 @@ def u(string, errors='strict'):
     return string
 
 
-def cast_path(obj):
+def cast_path(string):
     """
     Take a bytes or str path and cast it to unicode.
 
@@ -297,7 +297,9 @@ def cast_path(obj):
     Since this just really complicates everything and Python 2.7 will be EOL
     soon anyway, just go with always strings.
     """
-    return u(obj, errors='replace')
+    if isinstance(string, bytes):
+        return str(string, encoding='UTF-8', errors='replace')
+    return str(string)
 
 
 def force_unicode(obj):
