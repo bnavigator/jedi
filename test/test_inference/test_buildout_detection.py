@@ -82,4 +82,5 @@ def test_path_from_sys_path_assignment(Script):
     paths = check_module_test(Script, code)
     paths = list(map(force_unicode, paths))
     assert 1 not in paths
-    assert '/home/test/.buildout/eggs/important_package.egg' in map(str, paths)
+    assert os.path.abspath('/home/test/.buildout/eggs/important_package.egg') \
+        in map(str, paths)
