@@ -18,7 +18,7 @@ from test.helpers import test_dir, get_example_dir
 
 @pytest.mark.skipif(sys.version_info[0] == 2, reason="Ignore Python 2, EoL")
 def test_preload_modules():
-    def check_loaded(*modules):
+    def check_loaded(*module_names):
         for grammar_cache in cache.parser_cache.values():
             if None in grammar_cache:
                 break
@@ -28,9 +28,9 @@ def test_preload_modules():
             if path is not None and str(path).startswith(str(typeshed.TYPESHED_PATH))
         )
         # +1 for None module (currently used)
-        assert len(grammar_cache) - typeshed_cache_count == len(modules) + 1
-        for i in modules:
-            assert [i in k for k in grammar_cache.keys() if k is not None]
+        assert len(grammar_cache) - typeshed_cache_count == len(module_names) + 1
+        for i in module_names:
+            assert [i in str(k) for k in grammar_cache.keys() if k is not None]
 
     old_cache = cache.parser_cache.copy()
     cache.parser_cache.clear()
