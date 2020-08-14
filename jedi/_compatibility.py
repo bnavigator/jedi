@@ -13,6 +13,7 @@ import pkgutil
 import warnings
 import subprocess
 import weakref
+from pathlib import Path
 try:
     import importlib
 except ImportError:
@@ -123,7 +124,7 @@ def _from_loader(loader, string):
     except AttributeError:
         return None, is_package
     else:
-        module_path = cast_path(get_filename(string))
+        module_path = Path(cast_path(get_filename(string)))
 
     # To avoid unicode and read bytes, "overwrite" loader.get_source if
     # possible.
@@ -145,7 +146,7 @@ def _from_loader(loader, string):
     if code is None:
         return None, is_package
     if isinstance(loader, zipimporter):
-        return ZipFileIO(module_path, code, cast_path(loader.archive)), is_package
+        return ZipFileIO(module_path, code, Path(cast_path(loader.archive))), is_package
 
     return KnownContentFileIO(module_path, code), is_package
 
@@ -190,7 +191,7 @@ def find_module_pre_py3(string, path=None, full_name=None, is_global_search=True
 
         with module_file:
             code = module_file.read()
-        return KnownContentFileIO(cast_path(module_path), code), is_package
+        return KnownContentFileIO(Path(cast_path(module_path)), code), is_package
     except ImportError:
         pass
 

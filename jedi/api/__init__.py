@@ -218,7 +218,7 @@ class Script(object):
         if self.path is None:
             file_io = None
         else:
-            file_io = KnownContentFileIO(cast_path(self.path), self._code)
+            file_io = KnownContentFileIO(Path(cast_path(self.path)), self._code)
         if self.path is not None and self.path.suffix == '.pyi':
             # We are in a stub file. Try to load the stub properly.
             stub_module = load_proper_stub_module(
