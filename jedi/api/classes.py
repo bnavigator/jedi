@@ -301,6 +301,8 @@ class BaseName(object):
         if isinstance(self._name, ImportName) and fast:
             return ''
         doc = self._get_docstring()
+        if doc == 'None':
+            doc = ''
         if raw:
             return doc
 
